@@ -223,11 +223,17 @@ module.exports = [{
 }];
 
 if (IS_DEV) {
+  const demoStyleEntry = {
+    'demo-styles': path.resolve('./demos/demos.scss'), // TODO: remove once everything is converted
+  };
+  glob.sync('demos/**/*.scss').forEach((filename) => {
+    demoStyleEntry[filename.slice(6, -5)] = path.resolve(filename);
+  });
+  console.log('demoStyleEntry:', demoStyleEntry);
+
   module.exports.push({
     name: 'demo-css',
-    entry: {
-      'demo-styles': path.resolve('./demos/demos.scss'),
-    },
+    entry: demoStyleEntry,
     output: {
       path: OUT_PATH,
       publicPath: PUBLIC_PATH,
